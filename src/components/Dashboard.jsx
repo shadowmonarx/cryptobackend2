@@ -53,7 +53,7 @@ function fmt(n, decimals = 2) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 export default function Dashboard() {
-  const { currentUser, backendUser: initialBackendUser } = useAuth();
+  const { currentUser } = useAuth();
 
   const [tab, setTab]           = useState("trade");   // "trade" | "portfolio" | "history"
   const [prices, setPrices]     = useState({});
@@ -65,7 +65,7 @@ export default function Dashboard() {
   const [buyResult, setBuyResult] = useState(null);
   const [buyError, setBuyError] = useState("");
 
-  const [backendUser, setBackendUser] = useState(initialBackendUser);
+  const [backendUser, setBackendUser] = useState(null);
   const [holdings, setHoldings] = useState([]);
   const [trades, setTrades]     = useState([]);
   const [historyLoading, setHL] = useState(false);
@@ -79,7 +79,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     refreshPrices();
-    const id = setInterval(refreshPrices, 100);
+    const id = setInterval(refreshPrices, 15000); // 15s — was 100ms which hammers Binance
     return () => clearInterval(id);
   }, [refreshPrices]);
 

@@ -1,12 +1,7 @@
-// src/api/authApi.js
-// ─────────────────────────────────────────────────────────────────────
-// All backend calls. Token is always fetched fresh (never cached)
-// to avoid 401s from expired tokens.
-// ─────────────────────────────────────────────────────────────────────
-
 import { auth } from "../firebase/config";
 
-const BASE_URL = `${import.meta.env.VITE_API_URL}/api/...`;
+// Set VITE_API_URL in Vercel: https://cryptotrade-backend-production-6c82.up.railway.app/api
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 async function getAuthHeaders() {
   const user = auth.currentUser;
@@ -26,21 +21,14 @@ async function request(path, options = {}) {
   return data;
 }
 
-/** GET /api/user/me — returns user profile + holdings array */
 export async function getMyProfile() {
   return request("/user/me");
 }
 
-/** GET /api/test — basic auth check */
 export async function testSecureEndpoint() {
   return request("/test");
 }
 
-/**
- * POST /api/trade/buy
- * @param {string} asset    e.g. "BTC"
- * @param {number} amount   USD amount
- */
 export async function buyAsset(asset, amount) {
   return request("/trade/buy", {
     method: "POST",
@@ -48,7 +36,6 @@ export async function buyAsset(asset, amount) {
   });
 }
 
-/** GET /api/trade/history — returns list of past trades */
 export async function getTradeHistory() {
   return request("/trade/history");
 }
