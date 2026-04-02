@@ -79,7 +79,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     refreshPrices();
-    const id = setInterval(refreshPrices, 15000); // 15s — was 100ms which hammers Binance
+    const id = setInterval(refreshPrices, 500); // 15s — was 100ms which hammers Binance
     return () => clearInterval(id);
   }, [refreshPrices]);
 
